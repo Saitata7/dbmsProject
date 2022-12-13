@@ -54,10 +54,13 @@ public class Project {
 					"insert into Stock s (s.prod,s.dep,s.quantity) values ('p1','d1',1000), ('p1','d2',-100), ('p1','d4',1200), ('p3','d1',3000), ('p3','d4',2000), ('p2','d4',1500),('p2','d1',-400),('p2','d2',2000)");
 
 			// deleting p1 from prodid from Product and Stock table
-			stmt.executeUpdate(
-					"delete Product, Stock FROM	p AS Product JOIN s AS Stock ON p.prodid = s.prod WHERE prodid= 'p1'");
-			stmt.executeUpdate("DELETE FROM  Stock Where prod='p1'");
-			stmt.executeUpdate("DELETE FROM  Product Where prodid='p1'");
+			stmt.executeUpdate("BEGIN; ALTER TABLE Stock DROP CONSTRAINT fk_stock_prod; " +
+					"ALTER TABLE Stock DROP CONSTRAINT fk_stock_dep; " +
+					"ALTER TABLE Stock ADD CONSTRAINT fk_stock_prod_id FOREIGN KEY (prod) " +
+					"REFERENCES Product(prod) ON UPDATE CASCADE; ALTER TABLE Stock " +
+					"ADD CONSTRAINT fk_stock_dep_id FOREIGN KEY (dep) " +
+					"REFERENCES Depot (dep) ON UPDATE CASCADE; " +
+					"UPDATE Depot SET dep = d1 WHERE dep = dd1; COMMIT;");
 
 			// moving to the next row
 			rs.next();
