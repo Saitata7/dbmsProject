@@ -60,7 +60,7 @@ public class Project {
 					"REFERENCES Product(prod) ON UPDATE CASCADE; ALTER TABLE Stock " +
 					"ADD CONSTRAINT fk_stock_dep_id FOREIGN KEY (dep) " +
 					"REFERENCES Depot (dep) ON UPDATE CASCADE; " +
-					"UPDATE Depot SET dep = d1 WHERE dep = dd1; COMMIT;");
+					"UPDATE Depot SET dep = dd1 WHERE dep = d1; COMMIT;");
 
 			// moving to the next row
 			rs.next();
